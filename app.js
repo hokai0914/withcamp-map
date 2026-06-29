@@ -1,6 +1,7 @@
 (() => {
   const STORAGE_KEY = "withcamp-map-state-v1";
   const STATE_API_URL = "./api/state";
+  const ADMIN_PASSWORD_HASH = "a983360aeab576beafdec1d59a31660c80ef305f9c40340b9b5cdf02b1f03056";
 
   const cameraIcon = `
     <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none">
@@ -30,12 +31,6 @@
   function cacheDom() {
     dom.floorGrid = document.querySelector("#floorGrid");
     dom.adminToggle = document.querySelector("#adminToggle");
-    dom.resetDemo = document.querySelector("#resetDemo");
-    dom.selectedEmpty = document.querySelector("#selectedEmpty");
-    dom.selectedContent = document.querySelector("#selectedContent");
-    dom.selectedFloorLabel = document.querySelector("#selectedFloorLabel");
-    dom.selectedMarkerTitle = document.querySelector("#selectedMarkerTitle");
-    dom.mediaGrid = document.querySelector("#mediaGrid");
     dom.adminPanel = document.querySelector("#adminPanel");
     dom.adminFloorSelect = document.querySelector("#adminFloorSelect");
     dom.floorFileInput = document.querySelector("#floorFileInput");
@@ -61,20 +56,19 @@
   }
 
   function bindEvents() {
-    dom.adminToggle.addEventListener("click", () => {
-      adminMode = !adminMode;
+    dom.adminToggle.addEventListener("click", async () => {
+      if (adminMode) {
+        adminMode = false;
+        addMode = false;
+        render();
+        return;
+      }
+
+      const authorized = await requestAdminAccess();
+      if (!authorized) return;
+
+      adminMode = true;
       addMode = false;
-      render();
-    });
-
-    dom.resetDemo.addEventListener("click", () => {
-      const confirmed = window.confirm("저장된 도면, 카메라, 미디어 데이터를 샘플 상태로 초기화할까요?");
-      if (!confirmed) return;
-
-      state = createDefaultState();
-      selected = null;
-      adminFloorId = state.floors[0]?.id ?? "";
-      saveState();
       render();
     });
 
@@ -176,11 +170,19 @@
     });
   }
 
-  function render() {
+  function render(options = {}) {
+    const previousScrollX = window.scrollX;
+    const previousScrollY = window.scrollY;
+
     document.body.classList.toggle("admin-on", adminMode);
     renderFloorGrid();
-    renderSelection();
     renderAdmin();
+
+    if (options.preserveScroll) {
+      requestAnimationFrame(() => {
+        window.scrollTo(previousScrollX, previousScrollY);
+      });
+    }
   }
 
   function renderFloorGrid() {
@@ -218,6 +220,7 @@
         const markerButton = document.createElement("button");
         markerButton.className = "marker-button";
         markerButton.type = "button";
+        markerButton.dataset.markerId = marker.id;
         markerButton.style.left = `${marker.x}%`;
         markerButton.style.top = `${marker.y}%`;
         markerButton.setAttribute("aria-label", `${floor.name} ${marker.label} 미디어 보기`);
@@ -233,40 +236,34 @@
 
         markerButton.addEventListener("click", (event) => {
           event.stopPropagation();
+          markerButton.blur();
           selectMarker(floor.id, marker.id);
         });
 
         plan.append(markerButton);
       });
 
+      const selectedMarker = selected?.floorId === floor.id
+        ? floor.markers.find((marker) => marker.id === selected.markerId)
+        : null;
+      if (selectedMarker) {
+        plan.append(createMediaPopup(floor, selectedMarker));
+        afterNextPaint(positionActiveMediaPopup);
+      }
+
       card.append(head, plan);
       dom.floorGrid.append(card);
     });
   }
 
-  function renderSelection() {
-    const selection = getSelection();
-    dom.selectedEmpty.hidden = Boolean(selection);
-    dom.selectedContent.hidden = !selection;
-
-    if (!selection) {
-      dom.mediaGrid.innerHTML = "";
-      return;
-    }
-
-    dom.selectedFloorLabel.textContent = selection.floor.name;
-    dom.selectedMarkerTitle.textContent = selection.marker.label;
-    renderMediaGrid(selection.marker.media);
-  }
-
-  function renderMediaGrid(mediaItems) {
-    dom.mediaGrid.innerHTML = "";
+  function renderMediaItems(container, mediaItems) {
+    container.innerHTML = "";
 
     if (!mediaItems.length) {
       const empty = document.createElement("div");
       empty.className = "empty-state compact";
       empty.innerHTML = "<strong>등록된 미디어가 없습니다.</strong><span>관리자 모드에서 이미지 또는 영상을 추가하세요.</span>";
-      dom.mediaGrid.append(empty);
+      container.append(empty);
       return;
     }
 
@@ -274,7 +271,10 @@
       const card = document.createElement("button");
       card.className = "media-card";
       card.type = "button";
-      card.addEventListener("click", () => openViewer(media));
+      card.addEventListener("click", (event) => {
+        event.stopPropagation();
+        openViewer(media);
+      });
 
       const thumb = document.createElement("span");
       thumb.className = "media-thumb";
@@ -296,8 +296,144 @@
 
       thumb.append(image, badge);
       card.append(thumb, title);
-      dom.mediaGrid.append(card);
+      container.append(card);
     });
+  }
+
+  function createMediaPopup(floor, marker) {
+    const popup = document.createElement("div");
+    popup.className = "media-popup";
+    popup.style.left = `${marker.x}%`;
+    popup.style.top = `${marker.y}%`;
+    popup.style.transform = getMediaPopupTransform(marker);
+    popup.addEventListener("click", (event) => event.stopPropagation());
+
+    const head = document.createElement("div");
+    head.className = "media-popup-head";
+
+    const titleWrap = document.createElement("div");
+    const floorLabel = document.createElement("span");
+    floorLabel.className = "pill";
+    floorLabel.textContent = floor.name;
+    const title = document.createElement("strong");
+    title.textContent = marker.label;
+    titleWrap.append(floorLabel, title);
+
+    const closeButton = document.createElement("button");
+    closeButton.className = "media-popup-close";
+    closeButton.type = "button";
+    closeButton.setAttribute("aria-label", "Close media list");
+    closeButton.textContent = "x";
+    closeButton.addEventListener("click", () => {
+      selected = null;
+      renderSelectedMediaPopup();
+    });
+
+    const grid = document.createElement("div");
+    grid.className = "media-grid media-popup-grid";
+    renderMediaItems(grid, marker.media);
+
+    head.append(titleWrap, closeButton);
+    popup.append(head, grid);
+    return popup;
+  }
+
+  function getMediaPopupTransform(marker) {
+    const translateX = marker.x > 72 ? "calc(-100% + 18px)" : "-18px";
+    const translateY = marker.y > 62 ? "calc(-100% - 18px)" : "18px";
+    return `translate(${translateX}, ${translateY})`;
+  }
+
+  function renderSelectedMediaPopup() {
+    document.querySelectorAll(".media-popup").forEach((popup) => popup.remove());
+    document.querySelectorAll(".marker-button.is-selected").forEach((button) => {
+      button.classList.remove("is-selected");
+    });
+
+    const selection = getSelection();
+    if (!selection) return;
+
+    const plan = document.querySelector(`.floor-plan[data-floor-id="${cssEscape(selection.floor.id)}"]`);
+    if (!plan) {
+      render({ preserveScroll: true });
+      return;
+    }
+
+    const markerButton = plan.querySelector(`[data-marker-id="${cssEscape(selection.marker.id)}"]`);
+    markerButton?.classList.add("is-selected");
+    plan.append(createMediaPopup(selection.floor, selection.marker));
+    afterNextPaint(positionActiveMediaPopup);
+  }
+
+  function positionActiveMediaPopup() {
+    const popup = document.querySelector(".media-popup");
+    if (!popup || window.matchMedia("(max-width: 780px)").matches) return;
+
+    popup.style.marginLeft = "0px";
+    popup.style.marginTop = "0px";
+
+    const margin = 12;
+    const rect = popup.getBoundingClientRect();
+    let shiftX = 0;
+    let shiftY = 0;
+
+    if (rect.right > window.innerWidth - margin) {
+      shiftX = window.innerWidth - margin - rect.right;
+    }
+    if (rect.left + shiftX < margin) {
+      shiftX += margin - (rect.left + shiftX);
+    }
+    if (rect.bottom > window.innerHeight - margin) {
+      shiftY = window.innerHeight - margin - rect.bottom;
+    }
+    if (rect.top + shiftY < margin) {
+      shiftY += margin - (rect.top + shiftY);
+    }
+
+    popup.style.marginLeft = `${shiftX}px`;
+    popup.style.marginTop = `${shiftY}px`;
+  }
+
+  function cssEscape(value) {
+    if (window.CSS?.escape) return window.CSS.escape(value);
+    return String(value).replaceAll('"', '\\"');
+  }
+
+  function afterNextPaint(callback) {
+    if (typeof window.requestAnimationFrame === "function") {
+      window.requestAnimationFrame(callback);
+      return;
+    }
+
+    window.setTimeout(callback, 0);
+  }
+
+  async function requestAdminAccess() {
+    const password = window.prompt("관리자 비밀번호를 입력하세요.");
+    if (password === null) return false;
+
+    try {
+      const passwordHash = await sha256Hex(password);
+      if (passwordHash === ADMIN_PASSWORD_HASH) return true;
+    } catch {
+      window.alert("이 브라우저에서는 비밀번호 확인을 사용할 수 없습니다.");
+      return false;
+    }
+
+    window.alert("비밀번호가 올바르지 않습니다.");
+    return false;
+  }
+
+  async function sha256Hex(value) {
+    if (!window.crypto?.subtle) {
+      throw new Error("Crypto API is unavailable");
+    }
+
+    const bytes = new TextEncoder().encode(value);
+    const digest = await window.crypto.subtle.digest("SHA-256", bytes);
+    return Array.from(new Uint8Array(digest))
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join("");
   }
 
   function renderAdmin() {
@@ -383,7 +519,13 @@
   }
 
   function handlePlanClick(event, floor, plan) {
-    if (!adminMode || !addMode) return;
+    if (!adminMode || !addMode) {
+      if (selected) {
+        selected = null;
+        renderSelectedMediaPopup();
+      }
+      return;
+    }
 
     const rect = plan.getBoundingClientRect();
     const x = clamp(((event.clientX - rect.left) / rect.width) * 100, 0, 100);
@@ -425,7 +567,7 @@
     selected = { floorId, markerId };
     addMode = false;
     adminFloorId = floorId;
-    render();
+    renderSelectedMediaPopup();
   }
 
   function openViewer(media) {

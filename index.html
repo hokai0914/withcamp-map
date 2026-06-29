@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WithCamp Map</title>
+    <title>이리선교교회 맵</title>
     <link
       rel="icon"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f766e'/%3E%3Cpath d='M8 11h16v12H8z' fill='white'/%3E%3Ccircle cx='16' cy='17' r='4' fill='%230f766e'/%3E%3C/svg%3E"
@@ -14,11 +14,10 @@
     <header class="topbar">
       <div>
         <p class="eyebrow">WithCamp Map</p>
-        <h1>건물 도면 미디어 맵</h1>
+        <h1>이리선교교회 맵</h1>
       </div>
       <div class="topbar-actions">
         <button id="adminToggle" class="button button-ghost" type="button">관리자 모드 켜기</button>
-        <button id="resetDemo" class="button button-ghost" type="button">샘플 초기화</button>
       </div>
     </header>
 
@@ -34,22 +33,7 @@
         <div id="floorGrid" class="floor-grid" aria-live="polite"></div>
       </section>
 
-      <aside class="side-panel" aria-label="선택 위치 정보">
-        <section class="selection-panel">
-          <div id="selectedEmpty" class="empty-state">
-            <strong>카메라 버튼을 선택하세요.</strong>
-            <span>선택한 방 또는 위치의 미디어 썸네일이 여기에 표시됩니다.</span>
-          </div>
-
-          <div id="selectedContent" hidden>
-            <div class="selected-heading">
-              <span id="selectedFloorLabel" class="pill"></span>
-              <h2 id="selectedMarkerTitle"></h2>
-            </div>
-            <div id="mediaGrid" class="media-grid"></div>
-          </div>
-        </section>
-
+      <aside class="side-panel" aria-label="관리자 도구">
         <section id="adminPanel" class="admin-panel" aria-label="관리자 도구" hidden>
           <div class="panel-title">
             <p class="eyebrow">Admin</p>

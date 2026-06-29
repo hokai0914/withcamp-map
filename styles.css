@@ -21,6 +21,7 @@ body {
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
+  overflow-x: hidden;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -91,15 +92,18 @@ button {
 
 .app-shell {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+  grid-template-columns: minmax(0, 1fr);
   gap: 24px;
   width: min(1480px, 100%);
   margin: 0 auto;
   padding: 24px;
 }
 
+.admin-on .app-shell {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+}
+
 .map-section,
-.selection-panel,
 .admin-panel {
   min-width: 0;
 }
@@ -126,7 +130,6 @@ button {
 }
 
 .floor-card,
-.selection-panel,
 .admin-panel {
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -135,7 +138,8 @@ button {
 }
 
 .floor-card {
-  overflow: hidden;
+  position: relative;
+  overflow: visible;
 }
 
 .floor-card-head {
@@ -161,7 +165,7 @@ button {
 .floor-plan {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
   background: #f8faf6;
 }
 
@@ -227,7 +231,10 @@ button {
   gap: 18px;
 }
 
-.selection-panel,
+body:not(.admin-on) .side-panel {
+  display: none;
+}
+
 .admin-panel {
   padding: 18px;
 }
@@ -251,12 +258,6 @@ button {
   border: 1px dashed var(--border);
   border-radius: var(--radius);
   background: var(--surface-muted);
-}
-
-.selected-heading {
-  display: grid;
-  gap: 10px;
-  margin-bottom: 16px;
 }
 
 .pill {
@@ -326,6 +327,65 @@ button {
   padding: 0 10px 10px;
   font-size: 14px;
   font-weight: 800;
+}
+
+.media-popup {
+  position: absolute;
+  z-index: 12;
+  width: min(360px, calc(100% - 24px));
+  max-height: min(440px, calc(100% - 24px));
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 18px 48px rgba(38, 49, 43, 0.24);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.media-popup-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.media-popup-head > div {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.media-popup-head strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 16px;
+}
+
+.media-popup-close {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.media-popup-close:hover,
+.media-popup-close:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+  outline: none;
+}
+
+.media-popup-grid {
+  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
 }
 
 .admin-panel {
@@ -541,14 +601,9 @@ select:focus {
 }
 
 @media (max-width: 1100px) {
-  .app-shell {
+  .app-shell,
+  .admin-on .app-shell {
     grid-template-columns: 1fr;
-  }
-
-  .side-panel {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: start;
   }
 }
 
@@ -566,12 +621,67 @@ select:focus {
     padding: 16px;
   }
 
-  .floor-grid,
-  .side-panel {
+  .floor-grid {
     grid-template-columns: 1fr;
+  }
+
+  .floor-card,
+  .floor-plan {
+    overflow: hidden;
+  }
+
+  .floor-card-head {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .floor-image {
+    min-height: 180px;
+  }
+
+  .marker-button {
+    max-width: 132px;
+    min-height: 32px;
+    padding: 6px 8px;
+    gap: 4px;
+  }
+
+  .marker-button svg {
+    width: 15px;
+    height: 15px;
   }
 
   .marker-button span {
     max-width: 92px;
+  }
+
+  .media-popup {
+    position: fixed;
+    left: 12px !important;
+    right: 12px;
+    top: auto !important;
+    bottom: 12px;
+    width: auto;
+    max-height: min(70vh, 520px);
+    transform: none !important;
+    z-index: 40;
+    border-radius: 8px;
+  }
+
+  .media-popup-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .media-title {
+    font-size: 13px;
+  }
+
+  .viewer-dialog {
+    width: calc(100vw - 20px);
+    max-height: calc(100vh - 20px);
+  }
+
+  .viewer-content {
+    padding: 10px;
   }
 }

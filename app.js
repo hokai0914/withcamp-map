@@ -11,6 +11,7 @@
 
   let state = createDefaultState();
   let remoteStateEnabled = false;
+  let hasNotifiedRemoteSaveFailure = false;
   let saveQueue = Promise.resolve();
   let adminMode = false;
   let addMode = false;
@@ -698,6 +699,7 @@
       .then(() => saveRemoteState(serializedState))
       .catch((error) => {
         console.error("Failed to save shared map state.", error);
+        notifySharedSaveFailure(error);
       });
 
     return saveQueue;
@@ -738,8 +740,18 @@
     });
 
     if (!response.ok) {
-      throw new Error(`State save failed: ${response.status}`);
+      const message = await response.text();
+      throw new Error(message || `State save failed: ${response.status}`);
     }
+  }
+
+  function notifySharedSaveFailure(error) {
+    if (hasNotifiedRemoteSaveFailure) return;
+    hasNotifiedRemoteSaveFailure = true;
+
+    window.alert(
+      `공유 저장에 실패했습니다.\n\n${error.message}\n\n현재 변경 내용은 이 브라우저에는 남지만, 다른 사용자에게는 반영되지 않을 수 있습니다.`,
+    );
   }
 
   function normalizeState(rawState) {

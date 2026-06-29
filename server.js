@@ -1,10 +1,9 @@
 const http = require("node:http");
 const fs = require("node:fs/promises");
 const path = require("node:path");
+const { readState, validateState, writeState } = require("./lib/state-store");
 
 const rootDir = __dirname;
-const dataDir = path.join(rootDir, "data");
-const stateFile = path.join(dataDir, "map-state.json");
 const port = Number(process.env.PORT || 4173);
 
 const mimeTypes = {
@@ -106,29 +105,6 @@ async function resolveFilePath(requestedPath) {
   }
 
   return null;
-}
-
-async function readState() {
-  try {
-    const rawState = await fs.readFile(stateFile, "utf8");
-    return JSON.parse(rawState);
-  } catch (error) {
-    if (error.code !== "ENOENT") throw error;
-    return { floors: [] };
-  }
-}
-
-async function writeState(state) {
-  await fs.mkdir(dataDir, { recursive: true });
-  const tempFile = `${stateFile}.${process.pid}.tmp`;
-  await fs.writeFile(tempFile, `${JSON.stringify(state, null, 2)}\n`, "utf8");
-  await fs.rename(tempFile, stateFile);
-}
-
-function validateState(state) {
-  if (!state || !Array.isArray(state.floors)) {
-    throw new Error("State must include a floors array");
-  }
 }
 
 function readBody(request, limitBytes) {

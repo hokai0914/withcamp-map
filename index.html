@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WithCamp Map</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f766e'/%3E%3Cpath d='M8 11h16v12H8z' fill='white'/%3E%3Ccircle cx='16' cy='17' r='4' fill='%230f766e'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">WithCamp Map</p>
+        <h1>건물 도면 미디어 맵</h1>
+      </div>
+      <div class="topbar-actions">
+        <button id="adminToggle" class="button button-ghost" type="button">관리자 모드 켜기</button>
+        <button id="resetDemo" class="button button-ghost" type="button">샘플 초기화</button>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <section class="map-section" aria-labelledby="mapTitle">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Floor Plans</p>
+            <h2 id="mapTitle">1층 / 2층 도면</h2>
+          </div>
+          <p class="section-note">카메라 버튼을 선택하면 해당 위치의 이미지와 영상 목록이 표시됩니다.</p>
+        </div>
+        <div id="floorGrid" class="floor-grid" aria-live="polite"></div>
+      </section>
+
+      <aside class="side-panel" aria-label="선택 위치 정보">
+        <section class="selection-panel">
+          <div id="selectedEmpty" class="empty-state">
+            <strong>카메라 버튼을 선택하세요.</strong>
+            <span>선택한 방 또는 위치의 미디어 썸네일이 여기에 표시됩니다.</span>
+          </div>
+
+          <div id="selectedContent" hidden>
+            <div class="selected-heading">
+              <span id="selectedFloorLabel" class="pill"></span>
+              <h2 id="selectedMarkerTitle"></h2>
+            </div>
+            <div id="mediaGrid" class="media-grid"></div>
+          </div>
+        </section>
+
+        <section id="adminPanel" class="admin-panel" aria-label="관리자 도구" hidden>
+          <div class="panel-title">
+            <p class="eyebrow">Admin</p>
+            <h2>관리 도구</h2>
+          </div>
+
+          <div class="admin-block">
+            <label class="field">
+              <span>도면 선택</span>
+              <select id="adminFloorSelect"></select>
+            </label>
+
+            <label class="field">
+              <span>도면 이미지 업로드</span>
+              <input id="floorFileInput" type="file" accept="image/*" />
+            </label>
+
+            <label class="field">
+              <span>도면 이미지 URL</span>
+              <div class="input-row">
+                <input id="floorImageUrl" type="url" placeholder="https://example.com/floor-1.png" />
+                <button id="applyFloorImageUrl" class="button" type="button">적용</button>
+              </div>
+            </label>
+          </div>
+
+          <div class="admin-block">
+            <button id="addMarkerMode" class="button button-primary wide" type="button">카메라 버튼 추가</button>
+            <p class="hint">추가 모드를 켠 뒤 도면 위 원하는 위치를 클릭하세요. 이름은 생성 후 수정할 수 있습니다.</p>
+          </div>
+
+          <div id="noMarkerAdmin" class="empty-state compact">
+            <strong>선택된 카메라가 없습니다.</strong>
+            <span>도면의 카메라 버튼을 클릭하면 이름, 삭제, 미디어 목록을 관리할 수 있습니다.</span>
+          </div>
+
+          <div id="markerEditor" hidden>
+            <div class="admin-block">
+              <div class="marker-meta">
+                <span id="adminSelectedFloor" class="pill"></span>
+                <span id="adminSelectedPosition"></span>
+              </div>
+
+              <form id="roomForm" class="stacked-form">
+                <label class="field">
+                  <span>방 / 위치 이름</span>
+                  <input id="roomNameInput" type="text" required />
+                </label>
+                <div class="button-row">
+                  <button class="button button-primary" type="submit">이름 저장</button>
+                  <button id="deleteMarkerButton" class="button button-danger" type="button">카메라 삭제</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="admin-block">
+              <h3>미디어 추가</h3>
+              <form id="mediaForm" class="stacked-form">
+                <label class="field">
+                  <span>종류</span>
+                  <select id="mediaType">
+                    <option value="image">이미지</option>
+                    <option value="video">영상</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>제목</span>
+                  <input id="mediaTitle" type="text" placeholder="예: 회의실 전경" required />
+                </label>
+                <label class="field">
+                  <span>이미지 / 영상 URL</span>
+                  <input id="mediaSrc" type="text" placeholder="유튜브 퍼가기 소스, YouTube URL, .mp4 URL 입력 가능" required />
+                </label>
+                <label class="field">
+                  <span>썸네일 URL 선택</span>
+                  <input id="mediaThumb" type="text" placeholder="없으면 자동 썸네일을 사용합니다." />
+                </label>
+                <button class="button button-primary wide" type="submit">미디어 추가</button>
+              </form>
+            </div>
+
+            <div class="admin-block">
+              <h3>현재 미디어</h3>
+              <div id="adminMediaList" class="admin-media-list"></div>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <dialog id="viewerDialog" class="viewer-dialog">
+      <form class="dialog-head" method="dialog">
+        <h2 id="viewerTitle"></h2>
+        <button class="button button-ghost" type="submit">닫기</button>
+      </form>
+      <div id="viewerContent" class="viewer-content"></div>
+    </dialog>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>

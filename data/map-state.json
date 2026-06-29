@@ -1,0 +1,446 @@
+{
+  "floors": [
+    {
+      "id": "floor-1",
+      "name": "1층",
+      "image": "./map/1F.png",
+      "markers": [
+        {
+          "id": "3e012e01-5b84-43b6-a6c8-42ff6d9c1371",
+          "label": "소예배실",
+          "x": 73.35984095427436,
+          "y": 39.253039447214206,
+          "media": [
+            {
+              "id": "51785b31-1baa-4b94-8313-4dda98a988e6",
+              "type": "image",
+              "title": "내부",
+              "src": "img/1F/t6w7fMWCCnw43Q5pVAWowK_i_dl9iwc.jpg",
+              "thumb": ""
+            },
+            {
+              "id": "c144acab-9fe0-43c1-bd97-5366252139e9",
+              "type": "video",
+              "title": "소예배실",
+              "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/X0eojNKrvZs\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+              "thumb": "https://img.youtube.com/vi/X0eojNKrvZs/hqdefault.jpg"
+            }
+          ]
+        },
+        {
+          "id": "044482f2-24d6-484d-8412-1607ea803f69",
+          "label": "상담실",
+          "x": 25.377643504531722,
+          "y": 59.50271151596782,
+          "media": [
+            {
+              "id": "9b6f13a0-4a06-481e-bf62-2b8f99b854f6",
+              "type": "image",
+              "title": "내부",
+              "src": "img/1F/30gGaWCJw6F2KoJr9i9Gz1_i_40m882.jpg",
+              "thumb": ""
+            },
+            {
+              "id": "902e287b-13ee-4b39-805a-d128b6450406",
+              "type": "video",
+              "title": "내부 영상",
+              "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/Uzcb66zreq8\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+              "thumb": "https://img.youtube.com/vi/Uzcb66zreq8/hqdefault.jpg"
+            }
+          ]
+        },
+        {
+          "id": "7ab6a88c-aaf6-4358-b79b-900f4c7c5a48",
+          "label": "주일학교실",
+          "x": 24.773413897280967,
+          "y": 34.32282990110942,
+          "media": [
+            {
+              "id": "4bd273c6-e6ed-471a-9d68-e64820a6b14f",
+              "type": "image",
+              "title": "내부",
+              "src": "img/1F/T9oN9A6B6BQO8fFZ66i0e0_i_1mprlf.jpg",
+              "thumb": ""
+            },
+            {
+              "id": "0c2f0766-346c-43ee-8ad1-844b67afffbd",
+              "type": "video",
+              "title": "내부 영상",
+              "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/PK8DBynG_-o\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+              "thumb": "https://img.youtube.com/vi/PK8DBynG_-o/hqdefault.jpg"
+            },
+            {
+              "id": "bba3a0ca-ff4d-433a-8c6a-bd3758c72ef0",
+              "type": "video",
+              "title": "내부 영상2",
+              "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/UxLirANjKF0\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+              "thumb": "https://img.youtube.com/vi/UxLirANjKF0/hqdefault.jpg"
+            }
+          ]
+        },
+        {
+          "id": "5f0aeaac-c172-497b-aac3-2cc88e766b5e",
+          "label": "식당",
+          "x": 58.25049701789264,
+          "y": 15.854106533718184,
+          "media": [
+            {
+              "id": "52d9f12f-5102-4af1-938d-3b6e263d8f3a",
+              "type": "image",
+              "title": "내부",
+              "src": "img/1F/9PzJTp4ECUj5RETmjVbPiK_i_cq90rf.jpg",
+              "thumb": ""
+            },
+            {
+              "id": "7ef1e8ae-4dfd-466d-b21d-9331b1b595f9",
+              "type": "video",
+              "title": "식당",
+              "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/AqvJ3Er-740\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+              "thumb": "https://img.youtube.com/vi/AqvJ3Er-740/hqdefault.jpg"
+            }
+          ]
+        },
+        {
+          "id": "f7fd0050-6b55-4244-8689-21ffa0beb4f3",
+          "label": "중고등부실",
+          "x": 87.27634194831015,
+          "y": 76.64654946208344,
+          "media": [
+            {
+              "id": "38a51177-9eb1-4583-8dee-7abe0e6b2471",
+              "type": "video",
+              "title": "내부 영상1",
+              "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/EWQpIsHpzE4\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+              "thumb": "https://img.youtube.com/vi/EWQpIsHpzE4/hqdefault.jpg"
+            },
+            {
+              "id": "4e4aeeca-b391-4063-af32-39853499a3bb",
+              "type": "video",
+              "title": "내부 영상2",
+              "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/CNwuaoFkeKc\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+              "thumb": "https://img.youtube.com/vi/CNwuaoFkeKc/hqdefault.jpg"
+            }
+          ]
+        },
+        {
+          "id": "9d50f3f7-f7c2-402c-9bdc-7cd682c0dcb4",
+          "label": "복도 의자",
+          "x": 53.57502517623364,
+          "y": 28.31141672278737,
+          "media": [
+            {
+              "id": "f6d10105-043b-4dd2-bfe1-0e19d898e6a4",
+              "type": "image",
+              "title": "복도 의자",
+              "src": "img/1F/Ol6F42WLWLUZEP8xv5SY70_i_38q8aj.jpg",
+              "thumb": ""
+            }
+          ]
+        },
+        {
+          "id": "ab8efec3-a85b-44e3-859c-8024f630cbbc",
+          "label": "식당외부출입구",
+          "x": 16.717019133937562,
+          "y": 11.865097650019495,
+          "media": [
+            {
+              "id": "25de1677-b071-40d9-9ac3-d763016d72f9",
+              "type": "image",
+              "title": "외부 출입구",
+              "src": "img/1F/VKlfYuzEuE50VmQ3d4z1Nk_i_emozo5.jpg",
+              "thumb": ""
+            }
+          ]
+        },
+        {
+          "id": "50a42121-4b40-4d4c-8313-41b7bbbee72a",
+          "label": "남전도회실",
+          "x": 62.03423967774421,
+          "y": 85.70339914223939,
+          "media": [
+            {
+              "id": "d0e086f0-7327-4d71-9f69-c3e6aefcd56b",
+              "type": "video",
+              "title": "내부",
+              "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/L_OsX1ZhBKo\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+              "thumb": "https://img.youtube.com/vi/L_OsX1ZhBKo/hqdefault.jpg"
+            }
+          ]
+        },
+        {
+          "id": "390bf4ac-23c5-4f72-adf8-8df783eb4e5a",
+          "label": "복도",
+          "x": 49.546827794561935,
+          "y": 69.82419452025663,
+          "media": [
+            {
+              "id": "64ae4794-d8e8-491d-9138-291a0680aa51",
+              "type": "video",
+              "title": "복도",
+              "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/3H0O6Z-8QU4\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+              "thumb": "https://img.youtube.com/vi/3H0O6Z-8QU4/hqdefault.jpg"
+            }
+          ]
+        },
+        {
+          "id": "42e2a92f-82fe-4700-8819-f7e3609ef456",
+          "label": "2층에서 1층으로",
+          "x": 84.09542743538768,
+          "y": 96.23895740400594,
+          "media": [
+            {
+              "id": "1a640aa3-c09c-4b79-832d-c00df2f6dfc8",
+              "type": "video",
+              "title": "2층 / 1층",
+              "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/rcTxg4l__gk\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+              "thumb": "https://img.youtube.com/vi/rcTxg4l__gk/hqdefault.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "floor-2",
+      "name": "2층",
+      "image": "./map/2F.png",
+      "markers": [
+        {
+          "id": "cbf5192e-a2e1-465a-ac50-778b336fc893",
+          "label": "예배당 앞",
+          "x": 42.94234592445328,
+          "y": 22.893756883861606,
+          "media": [
+            {
+              "id": "0b4d4ee6-eb74-426b-afc1-6e395c1ff90b",
+              "type": "image",
+              "title": "강대상",
+              "src": "img/2F/20260625_114103.jpg",
+              "thumb": ""
+            },
+            {
+              "id": "ed010dc0-2005-4e33-a14b-7ddc86694700",
+              "type": "image",
+              "title": "예배당 앞",
+              "src": "img/2F/20260625_115124.jpg",
+              "thumb": ""
+            },
+            {
+              "id": "81760238-ac89-40c8-9cbd-37c4b82ea75a",
+              "type": "image",
+              "title": "예배당 앞2",
+              "src": "img/2F/HKMP3cjH6etjMVnY33jvU1_i_4krd9q.jpg",
+              "thumb": ""
+            },
+            {
+              "id": "46d4551b-9c59-4b16-a4f0-a120e28d0d15",
+              "type": "image",
+              "title": "강대상2",
+              "src": "img/2F/K9Siz9Bh7KgzSFgCzIlJg1_i_5een0z.jpg",
+              "thumb": ""
+            }
+          ]
+        },
+        {
+          "id": "255628c8-571e-4fa4-82f2-18cc7d9bbab1",
+          "label": "성가대석",
+          "x": 21.04733131923464,
+          "y": 15.485299326957138,
+          "media": [
+            {
+              "id": "4caf398d-7891-4c2f-9901-51e33b6fed94",
+              "type": "image",
+              "title": "성가대석",
+              "src": "img/2F/20260625_115347.jpg",
+              "thumb": ""
+            },
+            {
+              "id": "b1b74d55-7650-4369-aa44-29eb51e5097d",
+              "type": "image",
+              "title": "앰프",
+              "src": "img/2F/20260625_115336.jpg",
+              "thumb": ""
+            }
+          ]
+        },
+        {
+          "id": "ba2f322f-78ff-4ddf-aaa1-823284421243",
+          "label": "세션팀석",
+          "x": 62.53776435045317,
+          "y": 19.452709883103083,
+          "media": [
+            {
+              "id": "778c35a1-5bba-495a-9797-40211aee9763",
+              "type": "image",
+              "title": "세션팀석",
+              "src": "img/2F/20260625_120302.jpg",
+              "thumb": ""
+            },
+            {
+              "id": "5f2fe574-15d2-4932-92a8-24a9cb64724f",
+              "type": "video",
+              "title": "세션팀 자리",
+              "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/G-wBeRcAUKY?si=baDUeZOVywL5ueW8\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+              "thumb": ""
+            }
+          ]
+        },
+        {
+          "id": "be0a102e-29bc-468f-be9b-03b1e7121d23",
+          "label": "예배당 뒤",
+          "x": 43.605236656596176,
+          "y": 60.03365214311016,
+          "media": [
+            {
+              "id": "6b9d53d9-be8c-44ce-9332-aee73616d8ed",
+              "type": "image",
+              "title": "예배당 뒤",
+              "src": "img/2F/Oa7cPZRwKDFgxD5dyUseDk_i_kjmgje.jpg",
+              "thumb": ""
+            }
+          ]
+        },
+        {
+          "id": "e83ddf65-54f9-4972-a246-b3666d3beae4",
+          "label": "방송 장비",
+          "x": 63.74622356495468,
+          "y": 60.94048884165781,
+          "media": [
+            {
+              "id": "51332bf8-aeec-4cd8-9b77-9895b846c901",
+              "type": "image",
+              "title": "방송 장비",
+              "src": "img/2F/keXL8gURxJT1STgiLEkxx1_i_0htn7g.jpg",
+              "thumb": ""
+            }
+          ]
+        },
+        {
+          "id": "6d919c49-2ed2-4fa4-a220-502d2c4d5238",
+          "label": "자모실",
+          "x": 22.658610271903324,
+          "y": 67.8551186680836,
+          "media": [
+            {
+              "id": "228b5b87-6062-4d54-9e05-1faf1e4b82da",
+              "type": "image",
+              "title": "자모실 내부",
+              "src": "img/2F/20260625_121129.jpg",
+              "thumb": ""
+            },
+            {
+              "id": "d6bf7974-5a9f-4227-a193-419a4ea5fab6",
+              "type": "image",
+              "title": "자모실 창문",
+              "src": "img/2F/WxbcZAIkERVvbwZRjvSBnk_i_v274ov.jpg",
+              "thumb": ""
+            }
+          ]
+        },
+        {
+          "id": "c860a433-1b4c-490d-b914-1b6077b623a9",
+          "label": "새가족실",
+          "x": 66.36455186304129,
+          "y": 67.51505490612824,
+          "media": [
+            {
+              "id": "754833e9-7ebd-40b4-8337-725e4884fbbd",
+              "type": "image",
+              "title": "새가족실 내부",
+              "src": "img/2F/20260625_120926.jpg",
+              "thumb": ""
+            },
+            {
+              "id": "04cc4153-2bd5-411d-9f0c-bff90fa3d5e4",
+              "type": "image",
+              "title": "새가족실 내부2",
+              "src": "img/2F/20260625_121012.jpg",
+              "thumb": ""
+            },
+            {
+              "id": "9feeafab-e72f-4415-8dd6-611b17f5715e",
+              "type": "image",
+              "title": "새가족실 내부3",
+              "src": "img/2F/CU3kjs4fZk4ghUeHWjDk2k_i_op5c9q.jpg",
+              "thumb": ""
+            }
+          ]
+        },
+        {
+          "id": "731775b0-9e25-45b6-a952-417ef73c0a6c",
+          "label": "화장실",
+          "x": 58.91238670694864,
+          "y": 86.78533475026568,
+          "media": [
+            {
+              "id": "691cd256-bd52-48c5-883d-2720170ff31c",
+              "type": "image",
+              "title": "화장실 입구",
+              "src": "img/2F/BCUFFa0zmVzkVkKu4kq5Vk_i_ww6ocx.jpg",
+              "thumb": ""
+            }
+          ]
+        },
+        {
+          "id": "0dc9ac90-6dc6-4c6f-b224-bf413c9e9ddf",
+          "label": "중앙 계단",
+          "x": 36.958710976837864,
+          "y": 91.3195182430039,
+          "media": [
+            {
+              "id": "af9633ef-b593-4457-be39-a3a0dec56624",
+              "type": "image",
+              "title": "중앙 계단",
+              "src": "img/2F/OWLxxndTrwDTlmPyB4K7E0_i_h49qtf.jpg",
+              "thumb": ""
+            }
+          ]
+        },
+        {
+          "id": "f24e0b5d-2bf5-42bc-917a-c752ab555d60",
+          "label": "3층",
+          "x": 91.742195367573,
+          "y": 80.55083244775062,
+          "media": [
+            {
+              "id": "43141f1c-f276-428e-9dbb-ec44f9f9226f",
+              "type": "image",
+              "title": "3층",
+              "src": "img/2F/UlgZ2yJgwIiKlsMVybXha0_i_rmp7m8.jpg",
+              "thumb": ""
+            }
+          ]
+        },
+        {
+          "id": "3fcf8a78-9164-4593-a4f6-4a8cf5cc793d",
+          "label": "3층 계단",
+          "x": 57.70392749244713,
+          "y": 79.98405951115835,
+          "media": [
+            {
+              "id": "373df395-e9cd-4087-ab27-a02e13e83cac",
+              "type": "video",
+              "title": "3층 계단",
+              "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/qTIInjTMMYM\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+              "thumb": "https://img.youtube.com/vi/qTIInjTMMYM/hqdefault.jpg"
+            }
+          ]
+        },
+        {
+          "id": "d3abf8e7-5570-47d0-a23d-6af0c14390cc",
+          "label": "마당",
+          "x": 12.326043737574553,
+          "y": 95.84608122519624,
+          "media": [
+            {
+              "id": "3f999c88-75ab-4229-ad71-1a74c521cf0d",
+              "type": "video",
+              "title": "마당",
+              "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/BRH6DcindGg\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+              "thumb": "https://img.youtube.com/vi/BRH6DcindGg/hqdefault.jpg"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

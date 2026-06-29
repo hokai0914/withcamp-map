@@ -1,5 +1,6 @@
 (() => {
   const STORAGE_KEY = "withcamp-map-state-v1";
+  const STATE_API_URL = "./api/state";
 
   const cameraIcon = `
     <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none">
@@ -8,16 +9,20 @@
     </svg>
   `;
 
-  let state = loadState();
+  let state = createDefaultState();
+  let remoteStateEnabled = false;
+  let saveQueue = Promise.resolve();
   let adminMode = false;
   let addMode = false;
   let selected = null;
-  let adminFloorId = state.floors[0]?.id ?? "";
+  let adminFloorId = "";
   const dom = {};
 
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", async () => {
     cacheDom();
     bindEvents();
+    state = await loadState();
+    adminFloorId = state.floors[0]?.id ?? "";
     render();
   });
 
@@ -124,20 +129,39 @@
       const selection = getSelection();
       if (!selection) return;
 
+      const mediaType = dom.mediaType.value;
+      const rawMediaSrc = dom.mediaSrc.value.trim();
+      const mediaSrc = mediaType === "video" ? normalizeYouTubeMediaSrc(rawMediaSrc, dom.mediaTitle.value.trim()) : rawMediaSrc;
+      const mediaThumb = dom.mediaThumb.value.trim();
       const media = {
         id: createId(),
-        type: dom.mediaType.value,
+        type: mediaType,
         title: dom.mediaTitle.value.trim(),
-        src: dom.mediaSrc.value.trim(),
-        thumb: dom.mediaThumb.value.trim(),
+        src: mediaSrc,
+        thumb: mediaThumb || (mediaType === "video" ? getYouTubeThumbnailSrc(mediaSrc) : ""),
       };
 
       if (!media.title || !media.src) return;
 
+      dom.mediaSrc.value = media.src;
       selection.marker.media.push(media);
       dom.mediaForm.reset();
+      dom.mediaThumb.dataset.autofilled = "";
       saveState();
       render();
+    });
+
+    dom.mediaType.addEventListener("change", () => {
+      normalizeYouTubeSourceInput();
+      syncYouTubeThumbnail();
+    });
+    dom.mediaSrc.addEventListener("input", syncYouTubeThumbnail);
+    dom.mediaSrc.addEventListener("change", () => {
+      normalizeYouTubeSourceInput();
+      syncYouTubeThumbnail();
+    });
+    dom.mediaThumb.addEventListener("input", () => {
+      dom.mediaThumb.dataset.autofilled = "";
     });
 
     dom.viewerDialog.addEventListener("click", (event) => {
@@ -498,6 +522,8 @@
   function getMediaThumb(media) {
     if (media.thumb) return media.thumb;
     if (media.type === "image") return media.src;
+    const youtubeThumb = getYouTubeThumbnailSrc(media.src);
+    if (youtubeThumb) return youtubeThumb;
     return mediaPlaceholderSvg(media.title, media.type);
   }
 
@@ -517,8 +543,74 @@
   }
 
   function getYouTubeEmbedSrc(input) {
+    const youtube = parseYouTubeInput(input);
+    if (!youtube) return "";
+
+    const embedHost = youtube.host === "youtube-nocookie.com" ? "www.youtube-nocookie.com" : "www.youtube.com";
+    const embedUrl = new URL(`https://${embedHost}/embed/${youtube.videoId}`);
+    const start = normalizeYouTubeStart(youtube.url.searchParams.get("start") || youtube.url.searchParams.get("t"));
+    if (start) embedUrl.searchParams.set("start", start);
+
+    return embedUrl.toString();
+  }
+
+  function getYouTubeThumbnailSrc(input) {
+    const youtube = parseYouTubeInput(input);
+    if (!youtube) return "";
+    return `https://img.youtube.com/vi/${youtube.videoId}/hqdefault.jpg`;
+  }
+
+  function normalizeYouTubeSourceInput() {
+    if (dom.mediaType.value !== "video") return;
+
+    const normalizedSrc = normalizeYouTubeMediaSrc(dom.mediaSrc.value, dom.mediaTitle.value.trim());
+    if (normalizedSrc && normalizedSrc !== dom.mediaSrc.value.trim()) {
+      dom.mediaSrc.value = normalizedSrc;
+    }
+  }
+
+  function normalizeYouTubeMediaSrc(input, title) {
+    const rawValue = input?.trim() ?? "";
+    if (!rawValue || extractIframeSrc(rawValue)) return rawValue;
+    return getYouTubeIframeCode(rawValue, title) || rawValue;
+  }
+
+  function getYouTubeIframeCode(input, title) {
+    const embedSrc = getYouTubeEmbedSrc(input);
+    if (!embedSrc) return "";
+
+    const iframeTitle = title || "YouTube video player";
+    return `<iframe width="560" height="315" src="${escapeHtmlAttribute(embedSrc)}" title="${escapeHtmlAttribute(iframeTitle)}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+  }
+
+  function syncYouTubeThumbnail() {
+    if (dom.mediaType.value !== "video") {
+      clearAutofilledYouTubeThumbnail();
+      return;
+    }
+
+    const thumbnailSrc = getYouTubeThumbnailSrc(dom.mediaSrc.value);
+    if (!thumbnailSrc) {
+      clearAutofilledYouTubeThumbnail();
+      return;
+    }
+
+    const canAutofill = !dom.mediaThumb.value.trim() || dom.mediaThumb.dataset.autofilled === "youtube";
+    if (!canAutofill) return;
+
+    dom.mediaThumb.value = thumbnailSrc;
+    dom.mediaThumb.dataset.autofilled = "youtube";
+  }
+
+  function clearAutofilledYouTubeThumbnail() {
+    if (dom.mediaThumb.dataset.autofilled !== "youtube") return;
+    dom.mediaThumb.value = "";
+    dom.mediaThumb.dataset.autofilled = "";
+  }
+
+  function parseYouTubeInput(input) {
     const rawValue = input?.trim();
-    if (!rawValue) return "";
+    if (!rawValue) return null;
 
     const src = extractIframeSrc(rawValue) || rawValue;
 
@@ -526,19 +618,14 @@
       const url = new URL(src, window.location.href);
       const host = url.hostname.replace(/^www\./, "").toLowerCase();
       const allowedHosts = new Set(["youtube.com", "youtube-nocookie.com", "m.youtube.com", "youtu.be"]);
-      if (!allowedHosts.has(host)) return "";
+      if (!allowedHosts.has(host)) return null;
 
       const videoId = getYouTubeVideoId(url, host);
-      if (!videoId) return "";
+      if (!videoId) return null;
 
-      const embedHost = host === "youtube-nocookie.com" ? "www.youtube-nocookie.com" : "www.youtube.com";
-      const embedUrl = new URL(`https://${embedHost}/embed/${videoId}`);
-      const start = normalizeYouTubeStart(url.searchParams.get("start") || url.searchParams.get("t"));
-      if (start) embedUrl.searchParams.set("start", start);
-
-      return embedUrl.toString();
+      return { url, host, videoId };
     } catch {
-      return "";
+      return null;
     }
   }
 
@@ -549,6 +636,14 @@
     template.innerHTML = value;
     const iframe = template.content.querySelector("iframe");
     return iframe?.getAttribute("src")?.trim() ?? "";
+  }
+
+  function escapeHtmlAttribute(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;");
   }
 
   function getYouTubeVideoId(url, host) {
@@ -593,16 +688,57 @@
   }
 
   function saveState() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem(STORAGE_KEY, serializedState);
+
+    if (!remoteStateEnabled) return saveQueue;
+
+    saveQueue = saveQueue
+      .catch(() => undefined)
+      .then(() => saveRemoteState(serializedState))
+      .catch((error) => {
+        console.error("Failed to save shared map state.", error);
+      });
+
+    return saveQueue;
   }
 
-  function loadState() {
+  async function loadState() {
+    const remoteState = await loadRemoteState();
+    if (remoteState) return remoteState;
+
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (!saved) return createDefaultState();
       return normalizeState(JSON.parse(saved));
     } catch {
       return createDefaultState();
+    }
+  }
+
+  async function loadRemoteState() {
+    try {
+      const response = await fetch(STATE_API_URL, { cache: "no-store" });
+      if (!response.ok) return null;
+
+      const remoteState = normalizeState(await response.json());
+      remoteStateEnabled = true;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(remoteState));
+      return remoteState;
+    } catch {
+      return null;
+    }
+  }
+
+  async function saveRemoteState(serializedState) {
+    const response = await fetch(STATE_API_URL, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: serializedState,
+    });
+
+    if (!response.ok) {
+      throw new Error(`State save failed: ${response.status}`);
     }
   }
 

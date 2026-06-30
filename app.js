@@ -567,6 +567,7 @@
     selected = { floorId, markerId };
     addMode = false;
     adminFloorId = floorId;
+    renderAdmin();
     renderSelectedMediaPopup();
   }
 

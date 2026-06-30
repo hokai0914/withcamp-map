@@ -333,6 +333,13 @@
               "title": "자모실 창문",
               "src": "img/2F/WxbcZAIkERVvbwZRjvSBnk_i_v274ov.jpg",
               "thumb": ""
+            },
+            {
+              "id": "a96d6c85-0b02-4b60-8867-7da626ef714b",
+              "type": "video",
+              "title": "자모실 내부",
+              "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/9gtbnOiidxM\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+              "thumb": "https://img.youtube.com/vi/9gtbnOiidxM/hqdefault.jpg"
             }
           ]
         },
@@ -362,6 +369,13 @@
               "title": "새가족실 내부3",
               "src": "img/2F/CU3kjs4fZk4ghUeHWjDk2k_i_op5c9q.jpg",
               "thumb": ""
+            },
+            {
+              "id": "5af6e5ee-1074-4116-9297-6d0577856b01",
+              "type": "video",
+              "title": "새가족실 내부",
+              "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/HndVA1ejYEY\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+              "thumb": "https://img.youtube.com/vi/HndVA1ejYEY/hqdefault.jpg"
             }
           ]
         },

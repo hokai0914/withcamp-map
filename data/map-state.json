@@ -451,6 +451,20 @@
               "title": "마당",
               "src": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/BRH6DcindGg\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
               "thumb": "https://img.youtube.com/vi/BRH6DcindGg/hqdefault.jpg"
+            },
+            {
+              "id": "8fbceb86-c168-4fe0-8e7a-81df81f092a7",
+              "type": "image",
+              "title": "교회 입구",
+              "src": "img/2F/01RhkKUeAIXKuihJcoSFNK_i_duykiy.jpg",
+              "thumb": ""
+            },
+            {
+              "id": "73ff232f-99d9-4b71-b66f-99856d30289e",
+              "type": "image",
+              "title": "교회 건물",
+              "src": "img/2F/5IZTuTN4K8tP2FMyjmPcu0_i_l9dlta.jpg",
+              "thumb": ""
             }
           ]
         }
